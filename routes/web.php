@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LibroController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,9 +15,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    $nombre = "Nacho";
+    return view('inicio')->with('nombre', $nombre);
+})->name('inicio');
 
 Route::get('fecha', function () {
     return date("d/m/y h:i:s");
 });
+
+Route::resource('libros', LibroController::class)->only(['index', 'show', 'create', 'edit']);
+
