@@ -45,7 +45,7 @@ class LibroController extends Controller
      */
     public function store(Request $request)
     {
-       adrialol mirate los helpers XDDDDDDD LOOL
+
     }
 
     /**
