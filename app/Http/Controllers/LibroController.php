@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Libro;
 
 class LibroController extends Controller
 {
@@ -11,20 +12,22 @@ class LibroController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
     {
-        $libros = array(
-            array("titulo" => "El juego de Ender",
-            "autor" => "Orson Scott Card"),
-            array("titulo" => "La tabla de Flandes",
-            "autor" => "Arturo Pérez Reverte"),
-            array("titulo" => "La historia interminable",
-            "autor" => "Michael Ende"),
-            array("titulo" => "El Señor de los Anillos",
-            "autor" => "J.R.R. Tolkien")
-            );
-            return view('libros.listado', compact('libros'));
-
+        // $libros = array(
+        //     array("titulo" => "El juego de Ender",
+        //     "autor" => "Orson Scott Card"),
+        //     array("titulo" => "La tabla de Flandes",
+        //     "autor" => "Arturo Pérez Reverte"),
+        //     array("titulo" => "La historia interminable",
+        //     "autor" => "Michael Ende"),
+        //     array("titulo" => "El Señor de los Anillos",
+        //     "autor" => "J.R.R. Tolkien")
+        //     );
+        //     return view('libros.listado', compact('libros'));
+        $libros = Libro::get();
+        return view('libros.index', compact('libros'));
     }
 
     /**
@@ -45,7 +48,7 @@ class LibroController extends Controller
      */
     public function store(Request $request)
     {
-
+        return redirect()->route('libros.index');
     }
 
     /**
