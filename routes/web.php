@@ -23,5 +23,5 @@ Route::get('fecha', function () {
     return date("d/m/y h:i:s");
 });
 
-Route::resource('libros', LibroController::class)->only(['index', 'show', 'create', 'edit']);
+Route::resource('libros', LibroController::class)->only(['index', 'show', 'create', 'edit','destroy']);
 

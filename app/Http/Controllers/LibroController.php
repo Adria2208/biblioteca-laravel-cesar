@@ -15,17 +15,7 @@ class LibroController extends Controller
 
     public function index()
     {
-        // $libros = array(
-        //     array("titulo" => "El juego de Ender",
-        //     "autor" => "Orson Scott Card"),
-        //     array("titulo" => "La tabla de Flandes",
-        //     "autor" => "Arturo Pérez Reverte"),
-        //     array("titulo" => "La historia interminable",
-        //     "autor" => "Michael Ende"),
-        //     array("titulo" => "El Señor de los Anillos",
-        //     "autor" => "J.R.R. Tolkien")
-        //     );
-        //     return view('libros.listado', compact('libros'));
+
         $libros = Libro::get();
         return view('libros.index', compact('libros'));
     }
@@ -37,7 +27,7 @@ class LibroController extends Controller
      */
     public function create()
     {
-        return "Formulario de inserción de libros";
+        return view('libros.create');
     }
 
     /**
@@ -59,7 +49,8 @@ class LibroController extends Controller
      */
     public function show($id)
     {
-        return view('libros.show', compact('id'));
+        $libro = Libro::findOrFail($id);
+        return view('libros.show', compact('libro'));
     }
 
     /**
@@ -93,6 +84,9 @@ class LibroController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Libro::findOrFail($id)->delete();
+        $libros = Libro::get();
+        return view('libros.index', compact('libros'));
+
     }
 }
