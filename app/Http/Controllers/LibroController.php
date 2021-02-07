@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Libro;
+use App\Models\Autor;
 
 class LibroController extends Controller
 {
@@ -16,7 +17,7 @@ class LibroController extends Controller
     public function index()
     {
 
-        $libros = Libro::get();
+        $libros = Libro::with('autor')->get();
         return view('libros.index', compact('libros'));
     }
 
@@ -27,7 +28,8 @@ class LibroController extends Controller
      */
     public function create()
     {
-        return view('libros.create');
+        $autores = Autor::get();
+        return view('libros.create', compact('autores'));
     }
 
     /**
@@ -38,7 +40,18 @@ class LibroController extends Controller
      */
     public function store(Request $request)
     {
-        return redirect()->route('libros.index');
+        if ($request->has('titulo'))
+        {
+            $libro = new Libro();
+            $libro->titulo = $request->get('titulo');
+            $libro->editorial = $request->get('editorial');
+            $libro->precio = $request->get('precio');
+            $libro->autor()->associate(Autor::findOrFail($request->get('autor')));
+            $libro->save();
+
+            return redirect()->route('libros.index');
+        }
+
     }
 
     /**
@@ -84,9 +97,9 @@ class LibroController extends Controller
      */
     public function destroy($id)
     {
-        Libro::findOrFail($id)->delete();
-        $libros = Libro::get();
-        return view('libros.index', compact('libros'));
+        $libro = Libro::findOrFail($id);
+        $libro->delete();
+        return redirect()->route('libros.index');
 
     }
 }
